@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Discord StreamKit Overlay Sample</title>
+<link rel="stylesheet"  href="./css/style.css?1">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<style>
+body {
+	color: white;
+	background: #444;
+	padding: 40px;
+}
+a {
+	color: #ffc107;
+}
+a:hover {
+	color: #ffeb3b;
+}
+pre {
+	background: black;
+	padding: 30px;
+	margin-top: 0px;
+}
+.caution {
+	background: #5c6101;
+	padding: 30px;
+}
+h4 {
+	margin-bottom: 0;
+}
+hr {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #666;
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+.app-mount {
+	position: relative;
+}
+</style>
+<script>
+const bodyStyle = 
+`body {
+	background-color: rgba(0, 0, 0, 0);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}`;
+const style =
+`%parent%.voice-state {
+}
+%parent%.avatar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 500px !important;
+	height: 500px !important;
+	z-index: 1;
+	border: none !important;
+	display: none;
+}
+%parent%.speaking {
+	display: block;
+}
+%parent%.user {
+	display: none;
+}
+%parent%.voice-state[data-reactid*="111111111111111111"] .avatar {
+	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png");
+}
+%parent%.voice-state[data-reactid*="222222222222222222"] .avatar {
+	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png");
+}
+%parent%.voice-state[data-reactid*="333333333333333333"] .avatar {
+	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png");
+}
+%parent%.voice-state[data-reactid*="444444444444444444"] .avatar {
+	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png");
+}
+%parent%.voice-state[data-reactid*="555555555555555555"] .avatar {
+	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png");
+}`;
+const thisHtmlStyle = style.replace(/%parent%/g, '.sample-2 ');
+const styleElm = document.createElement('style');
+styleElm.innerText = thisHtmlStyle;
+document.head.appendChild(styleElm);
+const removeEmptyTextNodes = (elm) => {
+	for (let i = 0; i < elm.childNodes.length; i++) {
+		const e = elm.childNodes[i];
+		if (e.nodeType === 3) {
+			if (! ('' + e.textContent).trim()) {
+				e.parentNode.removeChild(e);
+				i--;
+			}
+		} else {
+			removeEmptyTextNodes(e);
+		}
+	}
+};
+const speak = (slc) => {
+	const $this = $(slc);
+	const time1 = 1000 + 3 * 1000 * Math.random();
+	const time2 = 1000 + 3 * 1000 * Math.random();
+	setTimeout(function(){
+		$this.addClass('speaking');
+		setTimeout(function(){
+			$this.removeClass('speaking');
+			speak(slc);
+		}, time2);
+	}, time1);
+};
+window.onload = () => {
+	speak('.avatar-1');
+	speak('.avatar-2');
+	speak('.avatar-3');
+	speak('.avatar-4');
+	speak('.avatar-5');
+	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
+		removeEmptyTextNodes(mount);
+	});
+	const $code = $('<code></code>');
+	$code.text(style.replace(/%parent%/g, '') + '\n' + bodyStyle);
+	$('.sample-2 .pre').append($code);
+}
+</script>
+</head>
+<body style="margin: 0;">
+	<div class="header">
+	<a href="https://streamkit.discordapp.com/overlay">https://streamkit.discordapp.com/overlay</a><br>
+	</div>
+	<hr>
+	<h3>Vanilla Overlay</h3>
+	<div class="sample sample-1">
+		<div class="app-mount">
+			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
+				<div class="voice-container">
+					<ul class="voice-states">
+						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/bigicon1.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">AERTHRANDIR</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/bigicon2.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">AMITY</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/bigicon3.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">CAOIMHE</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/bigicon4.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">LILISSEN</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$555555555555555555/=1$555555555555555555.$/=11"><img class="avatar avatar-5" src="./img/bigicon5.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">METRION</span></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<h3>Sample Overlay</h3>
+	<div class="sample sample-2">
+		<div class="app-mount" style="height: 500px;">
+			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
+				<div class="voice-container">
+					<ul class="voice-states">
+						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/icon1.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">AERTHRANDIR</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/icon2.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">AMITY</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/icon3.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">CAOIMHE</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/icon4.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">LILISSEN</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$555555555555555555/=1$555555555555555555.$/=11"><img class="avatar avatar-5" src="./img/icon5.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">METRION</span></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<h4>▼ Custom CSS</h4>
+		<pre class="pre"></pre>
+		<div class="caution">
+		<b>SUPPLEMENT</b>: "111111111111111111", "222222222222222222" ... are provisional values. Please replace here with Discord user IDs of your friends. (<a href="https://forum.truckersmp.com/index.php?/topic/81597-how-to-get-a-discord-users-unique-id/">How to get ID</a>)
+		</div>
+	</div>
+</body>

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Discord StreamKit Overlay Sample</title>
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="custom.css?1">
-	<script type="text/javascript" src="jquery-2.0.3.min.js"></script>
-	<script type="text/javascript" src="main.js"></script>
+	<link rel="stylesheet"  href="./css/style.css?1">
+	<link rel="stylesheet" href="./css/custom.css?1">
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script>
+		window.onload = function () {
+			var j_avatar = $('.avatar');
+			j_avatar.each(function(){
+				speak($(this));
+			});
+			function speak (j_this) {
+				var time_1 = 1000 + 3 * 1000 * Math.random();
+				var time_2 = 1000 + 3 * 1000 * Math.random();
+				setTimeout(function(){
+					j_this.addClass('speaking');
+					setTimeout(function(){
+						j_this.removeClass('speaking');
+						speak(j_this);
+					}, time_2);
+				}, time_1);
+			}
+			var j_button = $('.copy-button');
+			j_button.click(function(){
+				var j_this = $(this);
+				var target_id = j_this.attr('target');
+				copy(target_id);
+			});
+			function copy (id) {
+			  var pre = document.getElementById(id);
+			  pre.style.webkitUserSelect = 'auto';
+			  pre.style.userSelect = 'auto';
+			  document.getSelection().selectAllChildren(pre);
+			  return document.execCommand("copy");
+			}
+		};
+	</script>
 </head>
 <body style="margin: 0;">
 	
@@ -17,14 +48,14 @@
 	
 	<h3>Sample-1　デフォルト</h3>
 	<div class="sample-1">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre>body {
   overflow: hidden;
 }</pre>
 　　
 	<h3>Sample-2　アイコン横並び＋名前は下＋ひらがな4文字まで切り詰め</h3>
 	<div class="sample-2">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre id="sample-2">body {
   overflow: hidden;
 }
@@ -64,7 +95,7 @@
 	
 	<h3>Sample-3　アイコン横並び＋名前も横</h3>
 	<div class="sample-3">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre id="sample-3">body {
   overflow: hidden;
 }
@@ -104,7 +135,7 @@
 	
 	<h3>Sample-4　アイコン横並び＋名前も横＋ひとりあたり幅200px固定</h3>
 	<div class="sample-4">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre id="sample-4">body {
   overflow: hidden;
 }
@@ -145,7 +176,7 @@
 	
 	<h3>Sample-5　アニメーション</h3>
 	<div class="sample-5">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre id="sample-5">body {
   overflow: hidden;
 }
@@ -196,7 +227,7 @@
 	
 	<h3>Sample-6　明度</h3>
 	<div class="sample-6">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon2.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="icon3.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
+		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
 	</div><h4>カスタムCSS</h4><pre id="sample-6">body {
   overflow: hidden;
 }
