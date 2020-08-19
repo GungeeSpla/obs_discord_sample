@@ -19,6 +19,7 @@ pre {
 	background: black;
 	padding: 30px;
 	margin-top: 0px;
+	cursor: text;
 }
 .caution {
 	background: #5c6101;
@@ -49,6 +50,7 @@ const bodyStyle =
 }`;
 const style =
 `%parent%.voice-state {
+	display: inline-block;
 }
 %parent%.avatar {
 	position: absolute;
@@ -56,21 +58,17 @@ const style =
 	top: 0;
 	width: 500px !important;
 	height: 500px !important;
-	z-index: 0;
 	border: none !important;
-	display: none;
+	display: block;
+	animation: not-speaking 10s linear;
+	z-index: 0;
 }
 %parent%.speaking {
 	display: block;
-	animation: speaking 5s linear;
+	animation: speaking 10s linear;
 }
 %parent%.user {
 	display: none;
-}
-/* The face when no one is talking */
-%parent%.voice-state[data-reactid*="111111111111111111"] .avatar:not(.speaking) {
-	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon0.png");
-	display: block;
 }
 %parent%.voice-state[data-reactid*="111111111111111111"] .avatar {
 	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png");
@@ -87,9 +85,21 @@ const style =
 %parent%.voice-state[data-reactid*="555555555555555555"] .avatar {
 	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png");
 }
+@keyframes not-speaking {
+	0% {
+		z-index: 10000;
+	}
+	100% {
+		z-index: 0;
+	}
+}
 @keyframes speaking {
-	0% { z-index: 10000; }
-	100% { z-index: 0; }
+	0% {
+		z-index: 20000;
+	}
+	100% {
+		z-index: 10000;
+	}
 }`;
 const thisHtmlStyle = style.replace(/%parent%/g, '.sample-2 ');
 const styleElm = document.createElement('style');
@@ -123,9 +133,9 @@ const speak = (slc) => {
 window.onload = () => {
 	speak('.avatar-1');
 	speak('.avatar-2');
-	speak('.avatar-3');
-	speak('.avatar-4');
-	speak('.avatar-5');
+	//speak('.avatar-3');
+	//speak('.avatar-4');
+	//speak('.avatar-5');
 	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
 		removeEmptyTextNodes(mount);
 	});
