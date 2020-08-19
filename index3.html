@@ -72,8 +72,8 @@ const style =
 	/*position: absolute;*/
 	/*left: 0;*/
 	/*top: 0;*/
-	width: 200px !important;
-	height: 200px !important;
+	width: 300px !important;
+	height: 300px !important;
 	border: none !important;
 }
 %parent%.speaking {
@@ -93,7 +93,7 @@ const style =
 %parent%.voice-state[data-reactid*="444444444444444444"] .avatar {
 	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png");
 }
-%parent%.voice-state[data-reactid*="555555555555555555"] .avatar.speaking {
+%parent%.voice-state[data-reactid*="555555555555555555"] .avatar {
 	content: url("https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png");
 }
 %parent%.voice-state[data-reactid*="111111111111111111"] .avatar.speaking {
@@ -146,11 +146,11 @@ const speak = (slc) => {
 const updateCurrentStyle = () => {
 	currentStyle = (style
 		.replace(/%parent%/g, '')
-		.replace('111111111111111111', $('#input-1').get(0).value || '111111111111111111')
-		.replace('222222222222222222', $('#input-2').get(0).value || '222222222222222222')
-		.replace('333333333333333333', $('#input-3').get(0).value || '333333333333333333')
-		.replace('444444444444444444', $('#input-4').get(0).value || '444444444444444444')
-		.replace('555555555555555555', $('#input-5').get(0).value || '555555555555555555')
+		.replace(/111111111111111111/g, $('#input-1').get(0).value || '111111111111111111')
+		.replace(/222222222222222222/g, $('#input-2').get(0).value || '222222222222222222')
+		.replace(/333333333333333333/g, $('#input-3').get(0).value || '333333333333333333')
+		.replace(/444444444444444444/g, $('#input-4').get(0).value || '444444444444444444')
+		.replace(/555555555555555555/g, $('#input-5').get(0).value || '555555555555555555')
 		/*
 		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png', $('#input-img-1').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png')
 		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png', $('#input-img-2').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png')
@@ -199,8 +199,8 @@ window.onload = () => {
 	speak('.avatar-1');
 	speak('.avatar-2');
 	speak('.avatar-3');
-	//speak('.avatar-4');
-	//speak('.avatar-5');
+	speak('.avatar-4');
+	speak('.avatar-5');
 	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
 		removeEmptyTextNodes(mount);
 	});
@@ -250,7 +250,7 @@ window.onload = () => {
 	<hr>
 	<h3>Sample Overlay</h3>
 	<div class="sample sample-2">
-		<div class="app-mount">
+		<div class="app-mount" style="height: 350px;">
 			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
 				<div class="voice-container">
 					<ul class="voice-states">
