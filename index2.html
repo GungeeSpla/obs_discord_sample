@@ -38,6 +38,9 @@ input {
 	width: 400px;
 	margin: 5px;
 }
+input.input-url {
+	width: 800px;
+}
 hr {
 	border-left: none;
 	border-right: none;
@@ -45,6 +48,9 @@ hr {
 	border-bottom: 1px solid #666;
 	margin-top: 60px;
 	margin-bottom: 60px;
+}
+::placeholder {
+  color: #aaa;
 }
 .app-mount {
 	position: relative;
@@ -115,9 +121,9 @@ let currentStyle;
 let $copy;
 let $code;
 const thisHtmlStyle = style.replace(/%parent%/g, '.sample-2 ');
-const styleElm = document.createElement('style');
-styleElm.innerText = thisHtmlStyle;
-document.head.appendChild(styleElm);
+let $style = $('<style></style>');
+$style.text(thisHtmlStyle);
+$('head').eq(0).append($style);
 const removeEmptyTextNodes = (elm) => {
 	for (let i = 0; i < elm.childNodes.length; i++) {
 		const e = elm.childNodes[i];
@@ -143,12 +149,7 @@ const speak = (slc) => {
 		}, time2);
 	}, time1);
 };
-const save = () => {
-	const obj = {};
-	$('input').each(function() {
-		obj[this.id] = this.value;
-	});
-	localStorage.setItem('obs-discord-sample', JSON.stringify(obj));
+const updateCurrentStyle = () => {
 	currentStyle = (style
 		.replace(/%parent%/g, '')
 		.replace('111111111111111111', $('#input-1').get(0).value || '111111111111111111')
@@ -156,7 +157,22 @@ const save = () => {
 		.replace('333333333333333333', $('#input-3').get(0).value || '333333333333333333')
 		.replace('444444444444444444', $('#input-4').get(0).value || '444444444444444444')
 		.replace('555555555555555555', $('#input-5').get(0).value || '555555555555555555')
-		) + '\n' + bodyStyle
+		/*
+		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png', $('#input-img-1').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png')
+		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png', $('#input-img-2').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png')
+		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png', $('#input-img-3').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png')
+		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png', $('#input-img-4').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png')
+		.replace('https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png', $('#input-img-5').get(0).value || 'https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png')
+		*/
+		) + '\n' + bodyStyle;
+};
+const save = () => {
+	const obj = {};
+	$('input').each(function() {
+		obj[this.id] = this.value;
+	});
+	localStorage.setItem('obs-discord-sample', JSON.stringify(obj));
+	updateCurrentStyle();
 	$code.text(currentStyle);
 };
 const load = () => {
@@ -164,7 +180,8 @@ const load = () => {
 	if (objStr) {
 		const obj = JSON.parse(objStr);
 		Object.keys(obj).forEach((key) => {
-			$('#' + key).get(0).value = obj[key];
+			const $target = $('#' + key);
+			if ($target.size() > 0) $target.get(0).value = obj[key];
 		});
 	}
 };
@@ -187,7 +204,7 @@ window.onload = () => {
 	load();
 	speak('.avatar-1');
 	speak('.avatar-2');
-	//speak('.avatar-3');
+	speak('.avatar-3');
 	//speak('.avatar-4');
 	//speak('.avatar-5');
 	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
@@ -198,14 +215,7 @@ window.onload = () => {
 		copy(currentStyle);
 	});
 	$code = $('<code></code>');
-	currentStyle = (style
-		.replace(/%parent%/g, '')
-		.replace('111111111111111111', $('#input-1').get(0).value || '111111111111111111')
-		.replace('222222222222222222', $('#input-2').get(0).value || '222222222222222222')
-		.replace('333333333333333333', $('#input-3').get(0).value || '333333333333333333')
-		.replace('444444444444444444', $('#input-4').get(0).value || '444444444444444444')
-		.replace('555555555555555555', $('#input-5').get(0).value || '555555555555555555')
-		) + '\n' + bodyStyle
+	updateCurrentStyle();
 	$code.text(currentStyle);
 	$('.sample-2 .pre').append($code);
 	$('input').on('input change', save);
@@ -270,11 +280,19 @@ window.onload = () => {
 			</div>
 		</div>
 		<h4>▼ Please Input Discord User IDs of Your Friends (like 448994167029497867)</h4>
-		<input id="input-1" type="text"><br>
-		<input id="input-2" type="text"><br>
-		<input id="input-3" type="text"><br>
-		<input id="input-4" type="text"><br>
-		<input id="input-5" type="text"><br>
+		<input class="input-id" id="input-1" type="text" placeholder="111111111111111111"><br>
+		<input class="input-id" id="input-2" type="text" placeholder="222222222222222222"><br>
+		<input class="input-id" id="input-3" type="text" placeholder="333333333333333333"><br>
+		<input class="input-id" id="input-4" type="text" placeholder="444444444444444444"><br>
+		<input class="input-id" id="input-5" type="text" placeholder="555555555555555555"><br>
+		<!--
+		<h4>▼ Please Input Image URL</h4>
+		<input class="input-url" id="input-img-1" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png"><br>
+		<input class="input-url" id="input-img-2" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png"><br>
+		<input class="input-url" id="input-img-3" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png"><br>
+		<input class="input-url" id="input-img-4" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png"><br>
+		<input class="input-url" id="input-img-5" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png"><br>
+		-->
 		<h4>▼ Custom CSS <button id="copy">copy</button></h4>
 		<pre class="pre"></pre>
 		<div class="caution">
