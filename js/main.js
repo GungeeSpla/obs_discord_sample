@@ -52,7 +52,7 @@ const AVATAR_NAMES = [
 	'Blue',
 	'Orange',
 	'Red',
-	'Yellow',
+	'Purple',
 ];
 
 const STREAMKIT_SAMPLES = [
