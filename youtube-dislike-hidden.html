@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ユーザースタイルシート(CSS)を利用してYouTubeの低評価数を非表示にする</title>
+<link rel="stylesheet" href="./css/discord.css">
+<link rel="stylesheet" href="./css/style.css?2">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?4"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<style>
+body {
+	background: #eee;
+	color: #333;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 800px;
+	overflow-x: hidden;
+}
+hr {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+#description-html li {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+button {
+	font-size: 20px;
+	padding: 8px;
+}
+pre {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+code.hljs {
+	padding: 30px;
+}
+</style>
+<script>
+const css = 
+`#dislike,
+#dislike-text,
+#likes-header-name,
+#percent_liked_vs_disliked,
+.video-dislikes-count,
+.like-button-renderer-dislike-button,
+.vm-video-side-view-count,
+.force-icon-button:nth-child(2),
+.ytd-sentiment-bar-renderer,
+.ytcp-video-list-cell-likes,
+.tablecell-likes,
+.tablecell-comments
+{
+  display: none !important;
+}
+.cell-body.tablecell-views {
+  opacity: 0;   
+}`;
+window.onload = () => {
+	$('code').text(css);
+	hljs.highlightBlock($('code').get(0));
+};
+</script>
+</head>
+<body>
+<div id="content">
+	<h2>ユーザースタイルシート(CSS)を利用してYouTubeの低評価数を非表示にする</h2>
+	<hr>
+	<h3>YouTubeの低評価について</h3>
+	<p>自分の動画に付けられた低評価というのは、まあ、見ていて気持ちのよいものではない。プロのYouTuberなら低評価と向き合う必要があるのかもしれないが、趣味で動画投稿/配信しているだけの人間が低評価と向き合う必要は微塵もない。</p>
+	<p>「1の低評価より10の高評価に向き合え」という類いのアドバイスもあるが、よほどメンタルが強い人でない限り、見えてしまえば気になるものだ。</p>
+	<hr>
+	<h3>見えないようにしたいのだが</h3>
+	<p>「YouTube 低評価 非表示」で検索すると、一見それっぽい情報がたくさんヒットするが、そのほとんどは本当に欲しい情報ではない。このワードで検索して出てくるのは軒並み「<b>視聴者</b>がその動画の評価数を見られないようにする設定」であって、「<b>動画投稿者/配信者</b>が自分の動画/配信に付けられた低評価数を見なくて済むようにする設定」ではない。</p>
+	<p>どうもYouTubeには、そのような設定は存在しないらしい。「YouTubeに動画を投稿するからには低評価と向き合え」というのがYouTubeの姿勢のようだ。</p>
+	<hr>
+	<h3>ユーザースタイルシートを利用する</h3>
+	<p>というわけで方針を転換し、<b>ユーザースタイルシート</b>を利用することを考える。ユーザースタイルシートというのは、Webサイトの見た目を自分で調整・変更する機能のこと。大抵のブラウザには、ユーザースタイルシートを使えるようにする<b>アドオン</b>が存在する（Google Chromeなら「Stylish」など）。もしよくわからなかったら、「ユーザースタイルシート アドオン」あたりで検索してみよう。</p>
+	<p>さて、アドオンをインストールしたら、次のスタイルを設定しよう。</p>
+	<pre><code class="css"></code></pre>
+	<p>これで、低評価に関連する内容が軒並み見えなくなるハズ。</p>
+</div>
+</body>
