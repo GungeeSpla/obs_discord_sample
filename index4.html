@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Discord StreamKit Overlay Sample</title>
+<link rel="stylesheet"  href="./css/style.css?1">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<style>
+body {
+	color: white;
+	background: #444;
+	padding: 40px;
+}
+a {
+	color: #ffc107;
+}
+a:hover {
+	color: #ffeb3b;
+}
+pre {
+	background: black;
+	padding: 30px;
+	margin-top: 0px;
+	cursor: text;
+}
+.caution {
+	background: #5c6101;
+	padding: 30px;
+}
+h4 {
+	margin-bottom: 0;
+}
+button {
+	font-size: 100%;
+	line-height: 100%;
+	vertical-align: text-top;
+}
+input {
+	font-size: 130%;
+	width: 400px;
+	margin: 5px;
+}
+input.input-url {
+	width: 800px;
+}
+input.input-memo {
+	width: 200px;
+}
+input.input-id {
+	width: 300px;
+}
+input.input-image {
+	width: 400px;
+}
+input.input-name {
+	width: 200px;
+}
+hr {
+	border-left: none;
+	border-right: none;
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #666;
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+::placeholder {
+  color: #ccc;
+}
+.app-mount {
+	position: relative;
+}
+</style>
+<script>
+
+
+const bodyStyle = 
+`body {
+	background-color: rgba(0, 0, 0, 0);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}`;
+
+
+const nameChangeStyleBase = 
+`%parent%.voice-state[data-reactid*="%id%"] .user:before {
+	content: '%name%';
+	color: #ffffff;
+	font-size: 14px;
+	background-color: #1e2124;
+	border-radius: 3px;
+	padding: 4px 6px;
+}
+%parent%.voice-state[data-reactid*="%id%"] .name {
+	display: none !important;
+}`;
+
+
+const imageChangeStyleBase = 
+`%parent%.voice-state[data-reactid*="%id%"] .avatar {
+	content: url('%image%');
+}`;
+
+
+
+const styleBase =
+`%parent%.voice-state {
+	display: block;
+}
+%parent%.avatar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 200px !important;
+	height: 200px !important;
+	border: none !important;
+	border: 8px solid #1e2124 !important;
+	display: block;
+	z-index: 0;
+}
+%parent%.user {
+	position: absolute;
+	left: -20px;
+	top: 160px;
+    perspective: 400px;
+}
+%parent%.user:before,
+%parent%.name {
+	font-family: 'Splatfont';
+	font-size: 40px !important;
+	width: 250px !important;
+	line-height: 50px;
+	display: inline-block !important;
+    -webkit-mask-image: url(https://gungeespla.github.io/obs_discord_sample/img/mask.png);
+            mask-image: url(https://gungeespla.github.io/obs_discord_sample/img/mask.png);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center right;
+            mask-position: center right;
+    -webkit-mask-size: cover;
+            mask-size: cover;
+    transform: rotateY(-30deg) skewY(-3deg);
+    text-align: center;
+}
+%parent%.avatar,
+%parent%.user {
+	animation: not-speaking 100s linear;
+}
+%parent%.avatar.speaking,
+%parent%.avatar.speaking + .user {
+	animation: speaking 100s linear;
+}
+@keyframes not-speaking {
+	0% {
+		z-index: 100000;
+	}
+	100% {
+		z-index: 0;
+	}
+}
+@keyframes speaking {
+	0% {
+		z-index: 200000;
+	}
+	100% {
+		z-index: 100000;
+	}
+}
+`;
+
+
+let currentStyle;
+
+
+let $copy;
+
+
+let $code;
+
+
+let $style;
+
+
+const removeEmptyTextNodes = (elm) => {
+	for (let i = 0; i < elm.childNodes.length; i++) {
+		const e = elm.childNodes[i];
+		if (e.nodeType === 3) {
+			if (! ('' + e.textContent).trim()) {
+				e.parentNode.removeChild(e);
+				i--;
+			}
+		} else {
+			removeEmptyTextNodes(e);
+		}
+	}
+};
+
+
+const speak = (slc) => {
+	const $this = $(slc);
+	const time1 = 1000 + 3 * 1000 * Math.random();
+	const time2 = 1000 + 3 * 1000 * Math.random();
+	setTimeout(function(){
+		$this.addClass('speaking');
+		setTimeout(function(){
+			$this.removeClass('speaking');
+			speak(slc);
+		}, time2);
+	}, time1);
+};
+
+
+const updateCurrentStyle = () => {
+	let imageChangeStyle = '';
+	let nameChangeStyle = '';
+	const $trs = $('#discord-setting tbody tr');
+	$trs.each(function() {
+		const id = $(this).find('.input-id').val();
+		const image = $(this).find('.input-image').val();
+		const name = $(this).find('.input-name').val();
+		if (id) {
+			if (name) {
+				nameChangeStyle += (
+				  nameChangeStyleBase
+				  .replace(/%id%/g, id)
+				  .replace(/%name%/g, name)) + '\n';
+			}
+			if (image) {
+				imageChangeStyle += 
+				  (imageChangeStyleBase
+				  .replace(/%id%/g, id)
+				  .replace(/%image%/g, image)) + '\n';
+			}
+		}
+	});
+	currentStyle = 
+		styleBase + 
+		imageChangeStyle + 
+		nameChangeStyle;
+};
+
+
+const save = () => {
+	const obj = {};
+	$('input').each(function() {
+		obj[this.id] = this.value;
+	});
+	localStorage.setItem('obs-discord-sample', JSON.stringify(obj));
+	updateCurrentStyle();
+	$code.text(bodyStyle + '\n' + currentStyle.replace(/%parent%/g, ''));
+	$style.text(currentStyle.replace(/%parent%/g, '.sample-2 '));
+	const ids = [];
+	$('#discord-setting tbody tr').each(function(i) {
+		ids[i] = $(this).find('.input-id').val();
+	});
+	$('.voice-states').each(function() {
+		$(this).find('li').each(function(i) {
+			if (ids[i]) {
+				$(this).attr('data-reactid', ('.0.0.0.$%id%/=1$%id%.$/=11').replace(/%id%/g, ids[i]));
+			}
+		});
+	});
+};
+
+
+const load = () => {
+	const objStr = localStorage.getItem('obs-discord-sample');
+	if (objStr) {
+		const obj = JSON.parse(objStr);
+		Object.keys(obj).forEach((key) => {
+			const $target = $('#' + key);
+			if ($target.size() > 0) $target.get(0).value = obj[key];
+		});
+	}
+};
+
+
+const copy = (str) => {
+	var tmp = document.createElement('div');
+	var pre = document.createElement('pre');
+	pre.style.webkitUserSelect = 'auto';
+	pre.style.userSelect = 'auto';
+	tmp.appendChild(pre).textContent = str;
+	var s = tmp.style;
+	s.position = 'fixed';
+	s.right = '200%';
+	document.body.appendChild(tmp);
+	document.getSelection().selectAllChildren(tmp);
+	var result = document.execCommand('copy');
+	document.body.removeChild(tmp);
+	return result;
+}
+
+
+window.onload = () => {
+	$style = $('<style></style>').text(styleBase.replace(/%parent%/g, '.sample-2 '));
+	$('head').eq(0).append($style);
+	load();
+	speak('.avatar-1');
+	speak('.avatar-2');
+	speak('.avatar-3');
+	//speak('.avatar-4');
+	//speak('.avatar-5');
+	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
+		removeEmptyTextNodes(mount);
+	});
+	$copy = $('#copy');
+	$copy.on('click', () => {
+		copy(bodyStyle + '\n' + currentStyle.replace(/%parent%/g, ''));
+	});
+	$code = $('<code></code>');
+	$('.sample-2 .pre').append($code);
+	$('input').on('input change', save);
+	save();
+}
+</script>
+</head>
+<body style="margin: 0;">
+	<div class="header">
+	<a href="https://streamkit.discordapp.com/overlay">https://streamkit.discordapp.com/overlay</a><br>
+	</div>
+	<hr>
+	<h3>Vanilla Overlay</h3>
+	<div class="sample sample-1">
+		<div class="app-mount">
+			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
+				<div class="voice-container">
+					<ul class="voice-states">
+						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/icon1.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 1</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/icon2.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 2</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/icon3.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 3</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/icon4.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 4</span></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<h3>Custom Overlay</h3>
+	<div class="sample sample-2">
+		<div class="app-mount" style="height: auto;">
+			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
+				<div class="voice-container">
+					<ul class="voice-states">
+						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/icon1.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 1</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/icon2.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 2</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/icon3.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 3</span></div>
+						</li>
+						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/icon4.png">
+							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 4</span></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<h3>▼ Please Input Discord User IDs of Your Friends (like 448994167029497867)</h3>
+		<table id="discord-setting">
+			<thead>
+				<tr>
+					<th>メモ</th>
+					<th>Discord ID</th>
+					<th>画像URL</th>
+					<th>名前</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="input-memo"  id="input-1-memo"  type="text" value="User 1を変更" placeholder="User 1を変更"></td>
+					<td><input class="input-id"    id="input-1-id"    type="text" value="111111111111111111" placeholder="111111111111111111"></td>
+					<td><input class="input-image" id="input-1-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
+					<td><input class="input-name"  id="input-1-name"  type="text" value="イチロー" placeholder="イチロー"></td>
+				</tr>
+				<tr>
+					<td><input class="input-memo"  id="input-2-memo"  type="text" value="User 2を変更" placeholder="User 2を変更"></td>
+					<td><input class="input-id"    id="input-2-id"    type="text" value="222222222222222222" placeholder="222222222222222222"></td>
+					<td><input class="input-image" id="input-2-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
+					<td><input class="input-name"  id="input-2-name"  type="text" value="ジロー" placeholder="ジロー"></td>
+				</tr>
+				<tr>
+					<td><input class="input-memo"  id="input-3-memo"  type="text" value="User 3を変更" placeholder="User 3を変更"></td>
+					<td><input class="input-id"    id="input-3-id"    type="text" value="333333333333333333" placeholder="333333333333333333"></td>
+					<td><input class="input-image" id="input-3-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
+					<td><input class="input-name"  id="input-3-name"  type="text" value="サブロー" placeholder="サブロー"></td>
+				</tr>
+				<tr>
+					<td><input class="input-memo"  id="input-4-memo"  type="text" value="User 4を変更" placeholder="User 4を変更"></td>
+					<td><input class="input-id"    id="input-4-id"    type="text" value="444444444444444444" placeholder="444444444444444444"></td>
+					<td><input class="input-image" id="input-4-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
+					<td><input class="input-name"  id="input-4-name"  type="text" value="シロー" placeholder="シロー"></td>
+				</tr>
+			</tbody>
+		</table>
+		<!--
+		<h4>▼ Please Input Image URL</h4>
+		<input class="input-url" id="input-img-1" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png"><br>
+		<input class="input-url" id="input-img-2" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png"><br>
+		<input class="input-url" id="input-img-3" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png"><br>
+		<input class="input-url" id="input-img-4" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png"><br>
+		<input class="input-url" id="input-img-5" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png"><br>
+		-->
+		<hr>
+		<h3>▼ Custom CSS <button id="copy">copy</button></h3>
+		<pre class="pre"></pre>
+		<div class="caution">
+		<b>SUPPLEMENT</b>: "111111111111111111", "222222222222222222" ... are provisional values. Please replace here with Discord user IDs of your friends. (<a href="https://forum.truckersmp.com/index.php?/topic/81597-how-to-get-a-discord-users-unique-id/">How to get ID</a>)
+		</div>
+	</div>
+</body>
