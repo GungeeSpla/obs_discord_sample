@@ -150,8 +150,7 @@ const STREAMKIT_SAMPLES = [
 		description: '「一番最後に話した人」を表示します。話し終わったあともアバターは表示されます。',
 		height: 100,
 		css: 
-`
-%parent%.voice-state {
+`%parent%.voice-state {
   display: block;
   position: absolute;
 }
