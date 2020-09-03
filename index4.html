@@ -107,10 +107,10 @@ const styleBase =
 }
 %parent%.avatar {
 	position: absolute;
-	left: 0;
-	top: 0;
-	width: 200px !important;
-	height: 200px !important;
+	left: 20px;
+	top: 20px;
+	width: 160px !important;
+	height: 160px !important;
 	border: none !important;
 	border: 8px solid #1e2124 !important;
 	display: block;
@@ -118,7 +118,7 @@ const styleBase =
 }
 %parent%.user {
 	position: absolute;
-	left: -20px;
+	left: -35px;
 	top: 160px;
     perspective: 400px;
 }
@@ -126,7 +126,7 @@ const styleBase =
 %parent%.name {
 	font-family: 'Splatfont';
 	font-size: 40px !important;
-	width: 250px !important;
+	width: 270px !important;
 	line-height: 50px;
 	display: inline-block !important;
     -webkit-mask-image: url(https://gungeespla.github.io/obs_discord_sample/img/mask.png);
@@ -221,7 +221,7 @@ const updateCurrentStyle = () => {
 				nameChangeStyle += (
 				  nameChangeStyleBase
 				  .replace(/%id%/g, id)
-				  .replace(/%name%/g, name)) + '\n';
+				  .replace(/%name%/g, escape(name).replace(/%u/g, '\\0'))) + '\n';
 			}
 			if (image) {
 				imageChangeStyle += 

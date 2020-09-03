@@ -1,243 +1,39 @@
 <!DOCTYPE html>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Discord StreamKit Overlay Sample</title>
-	<link rel="stylesheet"  href="./css/style.css?1">
-	<link rel="stylesheet" href="./css/custom.css?1">
-	<script type="text/javascript" src="./js/jquery.min.js"></script>
-	<script>
-		window.onload = function () {
-			var j_avatar = $('.avatar');
-			j_avatar.each(function(){
-				speak($(this));
-			});
-			function speak (j_this) {
-				var time_1 = 1000 + 3 * 1000 * Math.random();
-				var time_2 = 1000 + 3 * 1000 * Math.random();
-				setTimeout(function(){
-					j_this.addClass('speaking');
-					setTimeout(function(){
-						j_this.removeClass('speaking');
-						speak(j_this);
-					}, time_2);
-				}, time_1);
-			}
-			var j_button = $('.copy-button');
-			j_button.click(function(){
-				var j_this = $(this);
-				var target_id = j_this.attr('target');
-				copy(target_id);
-			});
-			function copy (id) {
-			  var pre = document.getElementById(id);
-			  pre.style.webkitUserSelect = 'auto';
-			  pre.style.userSelect = 'auto';
-			  document.getSelection().selectAllChildren(pre);
-			  return document.execCommand("copy");
-			}
-		};
-	</script>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Discord StreamKit Overlay Sample</title>
+<link rel="stylesheet" href="./css/discord.css">
+<link rel="stylesheet" href="./css/style.css?2">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/vs.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?2"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </head>
 <body style="margin: 0;">
-	
+<div id="content">
+	<h2>Discord StreamKit Overlay Sample</h2>
 	<div class="header">
-	<a href="https://streamkit.discordapp.com/overlay">https://streamkit.discordapp.com/overlay</a><br>
-	ストリーミングソフトウェア『OBS』でDiscordのボイスチャットオーバーレイを表示する際の<br>
-	カスタムCSSの例を以下に示します。<br>
-	自分用にカスタムしていたのをもとにしているので余計なプロパティがかなりあります…Sorry<br>
+		<p>■Discord StreamKit Overlay<br><a href="https://streamkit.discordapp.com/overlay">https://streamkit.discordapp.com/overlay</a></p>
+		<p>ストリーミングソフトウェア『OBS』でDiscordのボイスチャットオーバーレイを表示する際のカスタムCSSの例を以下に示します。</p>
+		<p>Author: <a href="https://twitter.com/GungeeSpla">@GungeeSpla</a></p>
 	</div>
-	
-	<h3>Sample-1　デフォルト</h3>
-	<div class="sample-1">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre>body {
-  overflow: hidden;
-}</pre>
-　　
-	<h3>Sample-2　アイコン横並び＋名前は下＋ひらがな4文字まで切り詰め</h3>
-	<div class="sample-2">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre id="sample-2">body {
-  overflow: hidden;
-}
-.voice-container .voice-states * {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-.voice-container .voice-states li.voice-state { 	
-  width: 70px;
-  height: 90px;
-} 
-.voice-container .voice-states .voice-state .avatar {
-  left: 7px;
-}
-.voice-container .voice-states .voice-state .avatar.speaking {
-}
-.voice-container .voice-states .voice-state .user {
-  left: 2px;
-  top: 2px;
-  background: rgba(0,0,0,.7);
-  padding: 4px 5px 0px;
-  border-radius: 4px;
-}
-.voice-container .voice-states .voice-state .name {
-  width: 55px;
-  height: 17px;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-align: center;
-  background-color: rgba(0,0,0,0) !important;
-  padding: 0 !important;
-}
-</pre><h5 class="copy-button" target="sample-2">クリップボードにコピーする</h5>
-	
-	<h3>Sample-3　アイコン横並び＋名前も横</h3>
-	<div class="sample-3">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre id="sample-3">body {
-  overflow: hidden;
-}
-.voice-container .voice-states * {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-.voice-container .voice-states li.voice-state {
-  padding-right: 6px;
-  height: 70px;
-} 
-.voice-container .voice-states .voice-state .avatar {
-  left: 7px;
-}
-.voice-container .voice-states .voice-state .avatar.speaking {
-}
-.voice-container .voice-states .voice-state .user {
-  top: 14px;
-  left: 2px;
-  background: rgba(0,0,0,.7);
-  padding: 4px 5px 0px;
-  border-radius: 4px;
-}
-.voice-container .voice-states .voice-state .name {
-  min-width: 55px;
-  height: 17px;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-align: center;
-  background-color: rgba(0,0,0,0) !important;
-  padding: 0 !important;
-}
-</pre><h5 class="copy-button" target="sample-3">クリップボードにコピーする</h5>
-	
-	<h3>Sample-4　アイコン横並び＋名前も横＋ひとりあたり幅200px固定</h3>
-	<div class="sample-4">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre id="sample-4">body {
-  overflow: hidden;
-}
-.voice-container .voice-states * {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
-.voice-container .voice-states li.voice-state {
-  width: 200px;
-  height: 70px;
-} 
-.voice-container .voice-states .voice-state .avatar {
-  left: 7px;
-}
-.voice-container .voice-states .voice-state .avatar.speaking {
-}
-.voice-container .voice-states .voice-state .user {
-  top: 14px;
-  left: 2px;
-  background: rgba(0,0,0,.7);
-  padding: 4px 5px 0px;
-  border-radius: 4px;
-}
-.voice-container .voice-states .voice-state .name {
-  min-width: 55px;
-  max-width: 112px;
-  height: 17px;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-align: center;
-  background-color: rgba(0,0,0,0) !important;
-  padding: 0 !important;
-}
-</pre><h5 class="copy-button" target="sample-4">クリップボードにコピーする</h5>
-	
-	<h3>Sample-5　アニメーション</h3>
-	<div class="sample-5">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre id="sample-5">body {
-  overflow: hidden;
-}
-.voice-container .voice-states * {
-  display: inline-block;
-  position: relative;
-  top: 0;
-  left: 0;
-}
-.voice-container .voice-states li.voice-state {
-  display: block;
-  width: 200px;
-  height: 55px;
-} 
-.voice-container .voice-states .voice-state .avatar {
-  position: absolute;
-  top: 10px;
-  left: 17px;
-  transition: all 500ms ease;
-  border-width: 0px;
-  border-color: rgba(0,0,0,0);
-}
-.voice-container .voice-states .voice-state .avatar.speaking {
-  top: 0px;
-  left: 7px;
-  border-width: 10px;
-  border-color: rgba(50, 200, 130, 0.7);
-}
-.voice-container .voice-states .voice-state .user {
-  position: absolute;
-  top: 22px;
-  left: 80px;
-  background: rgba(0,0,0,.7);
-  padding: 4px 5px 0px;
-  border-radius: 4px;
-}
-.voice-container .voice-states .voice-state .name {
-  min-width: 55px;
-  height: 17px;
-  white-space: nowrap;
-  text-overflow: clip;
-  text-align: center;
-  background-color: rgba(0,0,0,0) !important;
-  padding: 0 !important;
-  overflow: hidden;
-}
-</pre><h5 class="copy-button" target="sample-5">クリップボードにコピーする</h5>
-	
-	<h3>Sample-6　明度</h3>
-	<div class="sample-6">
-		<div id="app-mount"><div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " ><div class="voice-container" ><ul class="voice-states" ><li class="voice-state" ><img class="avatar" src="./img/icon1.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >たろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon3.png" ><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >ももたろう</span></div></li><li class="voice-state" ><img class="avatar" src="./img/icon5.png"><div class="user" ><span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);" >うらしまたろう</span></div></li></ul></div></div></div>
-	</div><h4>カスタムCSS</h4><pre id="sample-6">body {
-  overflow: hidden;
-}
-.voice-container .voice-states .voice-state .avatar {
-  border-width: 4px ! important;
-  border-color: rgba(0,0,0,0) ! important;
-  filter: brightness(60%);
-}
-.voice-container .voice-states .voice-state .avatar.speaking {
-  filter: brightness(100%);
-}
-</pre><h5 class="copy-button" target="sample-6">クリップボードにコピーする</h5>
+	<hr>
+	<h3>解説</h3>
+	<div id="description-html">
+		<p>ボイスウィジェットのHTMLは次のようになっています。</p>
+		<img src="./img/desc-1.png"><br>
+		<pre><code id="discord-html" class="html"></code></pre>
+		<ul>
+			<li>「235088799074484224」「448994167029497867」などの18桁の数字はDiscordのユーザーIDです。このユーザーIDを利用して、特定のユーザーのアバターに対して固有のCSSを適用することができます。（ユーザーIDを取得する方法については<a href="https://forum.truckersmp.com/index.php?/topic/81597-how-to-get-a-discord-users-unique-id/">こちら</a>）</li>
+			<li>ユーザーが話しているとき、そのユーザーの&lt;img&gt;要素に「speaking」クラスが付与されます。</li>
+		</ul>
+	</div>
+	<hr>
+	<div id="streamkit-sample-area"></div>
+	<h3>参考</h3>
+	<p>■DISCORDで喋ってる人を分かり易くするカスタムCSS<br><a href="https://manten-do.net/archives/273">https://manten-do.net/archives/273</a></p>
+</div>
 </body>
