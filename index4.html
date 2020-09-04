@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Discord StreamKit Overlay Sample</title>
-<link rel="stylesheet"  href="./css/style.css?1">
+<link rel="stylesheet"  href="./css/discord.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/vs.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
 <script type="text/javascript" src="./js/jquery.min.js"></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <style>
 body {
-	color: white;
-	background: #444;
-	padding: 40px;
+	color: #333;
+	background: #eee;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 1000px;
+	overflow-x: hidden;
 }
 a {
 	color: #ffc107;
@@ -16,7 +26,7 @@ a:hover {
 	color: #ffeb3b;
 }
 pre {
-	background: black;
+	background: #fff;
 	padding: 30px;
 	margin-top: 0px;
 	cursor: text;
@@ -34,7 +44,7 @@ button {
 	vertical-align: text-top;
 }
 input {
-	font-size: 130%;
+	font-size: 16px;
 	width: 400px;
 	margin: 5px;
 }
@@ -42,22 +52,18 @@ input.input-url {
 	width: 800px;
 }
 input.input-memo {
-	width: 200px;
+	width: 100px;
 }
 input.input-id {
-	width: 300px;
-}
-input.input-image {
-	width: 400px;
-}
-input.input-name {
 	width: 200px;
 }
+input.input-image {
+	width: 200px;
+}
+input.input-name {
+	width: 100px;
+}
 hr {
-	border-left: none;
-	border-right: none;
-	border-top: 1px solid #000;
-	border-bottom: 1px solid #666;
 	margin-top: 60px;
 	margin-bottom: 60px;
 }
@@ -128,6 +134,7 @@ const styleBase =
 	font-size: 40px !important;
 	width: 270px !important;
 	line-height: 50px;
+	background: #1e2124 !important;
 	display: inline-block !important;
     -webkit-mask-image: url(https://gungeespla.github.io/obs_discord_sample/img/mask.png);
             mask-image: url(https://gungeespla.github.io/obs_discord_sample/img/mask.png);
@@ -165,6 +172,20 @@ const styleBase =
 	}
 }
 `;
+
+
+const trBase = 
+`<tr>
+	<td><input class="input-memo"  id="input-%num%-memo"  type="text" value="" placeholder="User %num%を変更"></td>
+	<td><input class="input-id"    id="input-%num%-id"    type="text" value="" placeholder="111111111111111111"></td>
+	<td><input class="input-image" id="input-%num%-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
+	<td><input class="input-name"  id="input-%num%-name"  type="text" value="" placeholder="Super User %num%"></td>
+</tr>`;
+
+const liBase = 
+`<li class="voice-state" data-reactid=".0.0.0.$%id%/=1$%id%.$/=11"><img class="avatar avatar-%num%" src="./img/%icon%.png">
+	<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User %num%</span></div>
+</li>`;
 
 
 let currentStyle;
@@ -246,6 +267,7 @@ const save = () => {
 	localStorage.setItem('obs-discord-sample', JSON.stringify(obj));
 	updateCurrentStyle();
 	$code.text(bodyStyle + '\n' + currentStyle.replace(/%parent%/g, ''));
+	//hljs.highlightBlock($('#css').get(0));
 	$style.text(currentStyle.replace(/%parent%/g, '.sample-2 '));
 	const ids = [];
 	$('#discord-setting tbody tr').each(function(i) {
@@ -286,6 +308,13 @@ const copy = (str) => {
 	document.getSelection().selectAllChildren(tmp);
 	var result = document.execCommand('copy');
 	document.body.removeChild(tmp);
+	if (result) {
+		toastr.options = {
+		  'positionClass': 'toast-bottom-right',
+		  'timeOut': '2000',
+		};
+		toastr.success('Copied!');
+	}
 	return result;
 }
 
@@ -293,12 +322,20 @@ const copy = (str) => {
 window.onload = () => {
 	$style = $('<style></style>').text(styleBase.replace(/%parent%/g, '.sample-2 '));
 	$('head').eq(0).append($style);
+	const $tbody = $('#discord-setting tbody');
+	const $states = $('.voice-states');
+	for (let i = 0; i < 10; i++) {
+		const id = ('000000000000000000' + i).slice(-18);
+		const icon = 'icon' + (i % 4);
+		const $tr = $(trBase.replace(/%num%/g, i));
+		$tbody.append($tr); 
+		$states.each(function() {
+			const $li = $(liBase.replace(/%num%/g, i).replace(/%id%/g, id).replace(/%icon%/g, icon));
+			$(this).append($li); 
+		});
+		speak('.avatar-' + i);
+	}
 	load();
-	speak('.avatar-1');
-	speak('.avatar-2');
-	speak('.avatar-3');
-	//speak('.avatar-4');
-	//speak('.avatar-5');
 	Array.prototype.forEach.call(document.querySelectorAll('.app-mount'), (mount) => {
 		removeEmptyTextNodes(mount);
 	});
@@ -307,16 +344,21 @@ window.onload = () => {
 		copy(bodyStyle + '\n' + currentStyle.replace(/%parent%/g, ''));
 	});
 	$code = $('<code></code>');
-	$('.sample-2 .pre').append($code);
-	$('input').on('input change', save);
+	$('#css').append($code);
+	let timer = null;
+	$('input').on('input change', () => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			save();
+		}, 300);
+	});
 	save();
 }
 </script>
 </head>
 <body style="margin: 0;">
-	<div class="header">
+<div id="content">
 	<a href="https://streamkit.discordapp.com/overlay">https://streamkit.discordapp.com/overlay</a><br>
-	</div>
 	<hr>
 	<h3>Vanilla Overlay</h3>
 	<div class="sample sample-1">
@@ -324,18 +366,6 @@ window.onload = () => {
 			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
 				<div class="voice-container">
 					<ul class="voice-states">
-						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/icon1.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 1</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/icon2.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 2</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/icon3.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 3</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/icon4.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 4</span></div>
-						</li>
 					</ul>
 				</div>
 			</div>
@@ -344,28 +374,16 @@ window.onload = () => {
 	<hr>
 	<h3>Custom Overlay</h3>
 	<div class="sample sample-2">
-		<div class="app-mount" style="height: auto;">
+		<div class="app-mount" style="height: 240px; pointer-events: none;">
 			<div style="font-family:Whitney, sans-serif;background-color:transparent;" class="">
 				<div class="voice-container">
 					<ul class="voice-states">
-						<li class="voice-state" data-reactid=".0.0.0.$111111111111111111/=1$111111111111111111.$/=11"><img class="avatar avatar-1" src="./img/icon1.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 1</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$222222222222222222/=1$222222222222222222.$/=11"><img class="avatar avatar-2" src="./img/icon2.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 2</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$333333333333333333/=1$333333333333333333.$/=11"><img class="avatar avatar-3" src="./img/icon3.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 3</span></div>
-						</li>
-						<li class="voice-state" data-reactid=".0.0.0.$444444444444444444/=1$444444444444444444.$/=11"><img class="avatar avatar-4" src="./img/icon4.png">
-							<div class="user"><span class="name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.7);">User 4</span></div>
-						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<hr>
-		<h3>▼ Please Input Discord User IDs of Your Friends (like 448994167029497867)</h3>
+		<h3>Please Input Discord User IDs of Your Friends (like 448994167029497867)</h3>
 		<table id="discord-setting">
 			<thead>
 				<tr>
@@ -376,45 +394,14 @@ window.onload = () => {
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td><input class="input-memo"  id="input-1-memo"  type="text" value="User 1を変更" placeholder="User 1を変更"></td>
-					<td><input class="input-id"    id="input-1-id"    type="text" value="111111111111111111" placeholder="111111111111111111"></td>
-					<td><input class="input-image" id="input-1-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
-					<td><input class="input-name"  id="input-1-name"  type="text" value="イチロー" placeholder="イチロー"></td>
-				</tr>
-				<tr>
-					<td><input class="input-memo"  id="input-2-memo"  type="text" value="User 2を変更" placeholder="User 2を変更"></td>
-					<td><input class="input-id"    id="input-2-id"    type="text" value="222222222222222222" placeholder="222222222222222222"></td>
-					<td><input class="input-image" id="input-2-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
-					<td><input class="input-name"  id="input-2-name"  type="text" value="ジロー" placeholder="ジロー"></td>
-				</tr>
-				<tr>
-					<td><input class="input-memo"  id="input-3-memo"  type="text" value="User 3を変更" placeholder="User 3を変更"></td>
-					<td><input class="input-id"    id="input-3-id"    type="text" value="333333333333333333" placeholder="333333333333333333"></td>
-					<td><input class="input-image" id="input-3-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
-					<td><input class="input-name"  id="input-3-name"  type="text" value="サブロー" placeholder="サブロー"></td>
-				</tr>
-				<tr>
-					<td><input class="input-memo"  id="input-4-memo"  type="text" value="User 4を変更" placeholder="User 4を変更"></td>
-					<td><input class="input-id"    id="input-4-id"    type="text" value="444444444444444444" placeholder="444444444444444444"></td>
-					<td><input class="input-image" id="input-4-image" type="text" value="" placeholder="https://xxx/xxx.png"></td>
-					<td><input class="input-name"  id="input-4-name"  type="text" value="シロー" placeholder="シロー"></td>
-				</tr>
 			</tbody>
 		</table>
-		<!--
-		<h4>▼ Please Input Image URL</h4>
-		<input class="input-url" id="input-img-1" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon1.png"><br>
-		<input class="input-url" id="input-img-2" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon2.png"><br>
-		<input class="input-url" id="input-img-3" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon3.png"><br>
-		<input class="input-url" id="input-img-4" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon4.png"><br>
-		<input class="input-url" id="input-img-5" type="text" placeholder="https://gungeespla.github.io/obs_discord_sample/img/bigicon5.png"><br>
-		-->
 		<hr>
-		<h3>▼ Custom CSS <button id="copy">copy</button></h3>
-		<pre class="pre"></pre>
-		<div class="caution">
-		<b>SUPPLEMENT</b>: "111111111111111111", "222222222222222222" ... are provisional values. Please replace here with Discord user IDs of your friends. (<a href="https://forum.truckersmp.com/index.php?/topic/81597-how-to-get-a-discord-users-unique-id/">How to get ID</a>)
-		</div>
+		<h3>Custom CSS</h3>
+		<p>
+			<button id="copy">コピー</button>
+		</p>
+		<pre id="css"></pre>
 	</div>
+</div>
 </body>
