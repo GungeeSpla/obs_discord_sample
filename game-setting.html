@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OBS Studioの設定</title>
+<link rel="stylesheet" href="./css/style.css?2">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?4"></script>
+<style>
+body {
+	background: #eee;
+	color: #333;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 800px;
+	overflow-x: hidden;
+}
+hr {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+img {
+	transition: 300ms ease;
+	display: block;
+	max-width: 100%;
+	margin-bottom: 40px;
+}
+img:hover {
+	filter: brightness(140%);
+}
+</style>
+<script>
+window.onload = () => {
+	$('img').each(function() {
+		const src = $(this).attr('src');
+		$(this).wrap('<a href="' + src + '" target="_blank"></a>');
+	});
+};
+</script>
+</head>
+<body>
+<div id="content">
+
+	<h2>Splatoon2の設定</h2>
+	<p>私のSplatoon2の設定を以下に示します。</p>
+	<hr>
+
+	<h3>色覚サポート</h3>
+	<img src="./img/game/001.jpg">
+	<p>色覚サポートをONにしています。これをONにすると、サーモンランの自インクが青で固定されます。</p>
+	<p>青インクで固定すると「夜のときの自インクの塗りが分かりにくい」「他の人の録画データと見比べたときに色が違って違和感がある」などのデメリットがありますが、「グリルのタゲを示す赤い線が見やすい」「目が疲れにくい（と思う）」などのメリットがあります。</p>
+	<hr>
+
+	<h3>操作感度</h3>
+	<img src="./img/game/002.jpg">
+	<p>ジャイロ+0.5、右スティック+5です。</p>
+	<p>大雑把なエイムや視点移動は右スティックで行います。一気にガガッと動かせるように、最大の+5。もっと上があってもいいくらいです。</p>
+	<p>ジャイロは精密なエイムに使うので、あんまり高いと困るということで、+0.5。別に+0でも+1でもいいんですが、+0.5で刻んでおくと、いかにも「微調整しました」という感じの玄人感が出てカッコいいかなと思って+0.5にしています。</p>
+	<hr>
+
+</div>
+</body>
