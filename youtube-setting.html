@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>YouTube Liveの設定</title>
+<link rel="stylesheet" href="./css/style.css?2">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?4"></script>
+<style>
+body {
+	background: #eee;
+	color: #333;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 800px;
+	overflow-x: hidden;
+}
+hr {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+img {
+	transition: 300ms ease;
+	display: block;
+	max-width: 100%;
+	margin-bottom: 40px;
+}
+img:hover {
+	filter: brightness(140%);
+}
+</style>
+<script>
+window.onload = () => {
+	$('img').each(function() {
+		const src = $(this).attr('src');
+		$(this).wrap('<a href="' + src + '" target="_blank"></a>');
+	});
+};
+</script>
+</head>
+<body>
+<div id="content">
+
+	<h2>YouTube Liveの設定</h2>
+	<p>YouTube Liveで使用している設定を以下に示します。</p>
+	<hr>
+
+	<h3>ライブ配信の枠の取り方</h3>
+	<ol>
+	<li>YouTubeの画面右上の「プラスが付いたビデオカメラ」をクリックして「ライブ配信を開始」をクリック。（スケジュールの管理画面に移行する。ここをお気に入り登録しておくとよい。）</li>
+	<li>「ライブ配信をスケジュール設定」という青いボタンをクリック。</li>
+	<li>過去に配信したことがある場合、その設定を再利用することができる。</li>
+	<li>タイトルや概要欄を設定して「作成」をクリック。これで枠が取れて、スケジュールの管理画面に移行する。（タイトルや概要欄はあとから変更できる）</li>
+	<li>管理画面で、取った枠のサムネイルやタイトルをクリックすると、配信の官吏画面に移行する。</li>
+	</ol>
+	<img src="./img/live/001.png?1">
+	<img src="./img/live/002.png?1">
+	<img src="./img/live/003.png?1">
+	<img src="./img/live/004.png?1">
+	<img src="./img/live/002.png?1">
+	<img src="./img/live/005.png?1">
+	<hr>
+
+	<h3>YouTube Liveの設定</h3>
+	<img src="./img/live/006.png?1">
+	<p>こんな感じです。ゆるいゲーム配信では「超低遅延」（遅延は2～3秒）、サーモンラン配信では「低遅延」（遅延は7～8秒）を選択しています。</p>
+	<p>自動スタートや自動ストップは試してみたところ挙動が怪しい感じがしたので切っています。</p>
+	<p>DVRは巻き戻し機能のことで、まああったほうが便利であろうということで付けています。</p>
+	<p>「配信が終了したらライブのリプレイを限定公開にする」は特に必要ないのでオフ。ただしこれをオンにしても「限定公開」になるだけで「非公開」になるわけではないので、URLを知っている人はアーカイブを見れてしまいます。注意。</p>
+	<hr>
+
+	<h3>ストリームキーの設定</h3>
+	<img src="./img/live/007.png?1">
+	<p>ストリームキー右側の下向きの三角ボタンをクリックして「ストリームキーを管理」をクリックすると、既存のストリームキーの内容を変更したり削除したりできます。</p>
+	<p>「サポート可能な最大維持ビットレート」を「可変ビットレ―ト」に設定することで、OBS Studio側のエンコード設定が使用されます。デフォルトはたぶんこれ。基本的にデフォルトのキーで問題ないと思います。</p>
+	<hr>
+
+	<h3>ライブ配信の設定</h3>
+	<img src="./img/live/008.png?1">
+	<img src="./img/live/009.png?1">
+	<p>画面右上の歯車ボタンをクリックして設定できる内容です。</p>
+	<hr>
+</div>
+</body>
