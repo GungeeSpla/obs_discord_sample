@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>YouTubeでサーモンランの動画を見るときに便利なブックマークレット</title>
+<link rel="stylesheet" href="./css/style.css?2">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?4"></script>
+<style>
+body {
+	background: #eee;
+	color: #333;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 800px;
+	overflow-x: hidden;
+}
+hr {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+img {
+	transition: 300ms ease;
+	display: block;
+	max-width: 100%;
+	margin-bottom: 40px;
+}
+img:hover {
+	opacity: 0.6;
+}
+.bookmarklets {
+	margin: 40px 0;
+}
+.bookmarklets a {
+	text-decoration: none;
+	display: inline-block; 
+	width: max-content;
+	background: white;
+	border-radius: 30px;
+	padding: 10px 20px;
+	margin-bottom: 20px;
+	color: rgb(100, 100, 100);
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	transition: all 300ms ease;
+}
+.bookmarklets a:hover {
+	background: #f3ffd0;
+}
+.bookmarklets a:before {
+	content: "";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-image: url("./img/bookmarklet/favicon.png");
+	background-size: 20px 20px;
+	transform: translateY(4px);
+	margin-right: 8px;
+}
+</style>
+<script>
+window.onload = () => {
+	$('img').each(function() {
+		const src = $(this).attr('src');
+		$(this).wrap('<a href="' + src + '" target="_blank"></a>');
+	});
+};
+</script>
+</head>
+<body>
+<div id="content">
+
+	<h2>YouTubeでサーモンランの動画を見るときに便利な<br>ブックマークレット</h2>
+	<p>PCのブラウザでYouTubeのサーモンラン動画を見るときにブックマークレットを使うと便利だよ、という話。ワンタッチで動画を1Wave分進めたり1バイト分進めたりできます。</p>
+	<p>Google Chromeにおける使用方法を以下に示しますが、他のブラウザでも似たような操作で使用可能だと思います。</p>
+	<hr>
+
+	<h3>ブックマークバーを表示する</h3>
+	<p>まず、ブックマークバーを表示します。ブラウザの右上にある「3個の点が縦に並んでいるボタン」がメニューボタンです。メニューボタン→「ブックマーク(B)」→「ブックマーク バーを表示(S)」の順にクリックすると、ブラウザ上部のアドレスバーの下にブックマークバーが表示されます。<span style="font-size: 80%">（「Ctrl+Shift+B」でも表示／非表示の切り替えが可能です。）</span></p>
+	<hr>
+
+	<h3>ブックマークレットを追加してみる</h3>
+	<p>ブックマークマネージャから手動でブックマークレットを追加することもできますが、ここではもっと簡単にブックマークレットを追加してみましょう。以下の白いボタンを<b>ブックマークバーに向かってドラッグ＆ドロップ</b>してください。<span style="font-size: 80%">（以下の白いボタンの上でマウスの左ボタンを押す→そのままマウスの左ボタンを離さずにブックマークバーのところまで持っていく→マウスの左ボタンを離す）</span></p>
+	<div class="bookmarklets">
+        <a href="javascript:document.body.querySelector('video').currentTime -= 7 * 60;">－7:00</a>
+        <a href="javascript:document.body.querySelector('video').currentTime -= 2 * 60;">－2:00</a>
+        <a href="javascript:document.body.querySelector('video').currentTime -=     30;">－0:30</a>
+        <a href="javascript:document.body.querySelector('video').currentTime +=     30;">＋0:30</a>
+        <a href="javascript:document.body.querySelector('video').currentTime += 2 * 60;">＋2:00</a>
+        <a href="javascript:document.body.querySelector('video').currentTime += 7 * 60;">＋7:00</a>
+        <a href="javascript:!function(e,t){if(!!t.querySelector(&quot;#gungee-canvas&quot;))alert(&quot;%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%90%E3%82%B9%E3%81%AF%E3%81%99%E3%81%A7%E3%81%AB%E3%82%BB%E3%83%83%E3%83%88%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82&quot;);else{HTMLElement.prototype.css=function(e,t){if(&quot;string&quot;==typeof e){if(void 0===t)return this.style.getPropertyValue(e);this.style.setProperty(e,t)}else if(&quot;object&quot;==typeof e)for(var n=Object.keys(e),s=0;s<n.length;s++)this.style.setProperty(n[s],e[n[s]]);return this},HTMLElement.prototype.copyCss=function(e,t){for(var n=0;n<t.length;n++)this.style.setProperty(t[n],e.style.getPropertyValue(t[n]));return this},HTMLCanvasElement.prototype.reset=function(e,t){var n=this.getContext(&quot;2d&quot;);n.lineCap=&quot;round&quot;,n.lineJoin=&quot;round&quot;,n.lineWidth=e,n.strokeStyle=t};var n=!0,s=1280,o=720,r=t.querySelector(&quot;.ytp-chrome-top&quot;),i=t.querySelector(&quot;.ytp-gradient-top&quot;),l=t.querySelector(&quot;.ytp-chrome-bottom&quot;),a=t.querySelector(&quot;.ytp-gradient-bottom&quot;),c=t.querySelector(&quot;.html5-video-player&quot;),p=t.querySelector(&quot;.html5-video-container&quot;),d=t.querySelector(&quot;.ytp-size-button&quot;),y=t.querySelector(&quot;.ytp-fullscreen-button&quot;),u=p.querySelector(&quot;video&quot;),h=t.createElement(&quot;canvas&quot;);h.setAttribute(&quot;id&quot;,&quot;gungee-canvas&quot;);var v=t.createElement(&quot;canvas&quot;);p.appendChild(v),p.appendChild(h),h.css({position:&quot;absolute&quot;,display:&quot;block&quot;,&quot;z-index&quot;:&quot;99999999&quot;}),v.css({position:&quot;absolute&quot;,display:&quot;block&quot;,&quot;z-index&quot;:&quot;99999999&quot;}),n?c.css({position:&quot;fixed&quot;,&quot;z-index&quot;:&quot;99999990&quot;,left:&quot;0&quot;,top:&quot;20px&quot;}):c.css({position:&quot;relative&quot;,&quot;z-index&quot;:&quot;99999990&quot;});var f=t.createElement(&quot;style&quot;),g=&quot;&quot;;g+=&quot;ytd-app { background: black !important }&quot;,g+=&quot;#container.ytd-masthead, #secondary, .html5-endscreen { display: none !important };&quot;,f.innerHTML=g,t.head.appendChild(f);var m=v.getContext(&quot;2d&quot;),x=h.getContext(&quot;2d&quot;),b={x:null,y:null},w=!1;h.addEventListener(&quot;click&quot;,function(e){e.stopPropagation()}),h.addEventListener(&quot;contextmenu&quot;,function(e){return e.stopPropagation(),e.preventDefault(),!1}),h.addEventListener(&quot;mousedown&quot;,function(e){e.button>0?k():(x.beginPath(),m.beginPath(),w=!0)}),h.addEventListener(&quot;mouseup&quot;,E),h.addEventListener(&quot;mouseout&quot;,E),h.addEventListener(&quot;mousemove&quot;,function(e){var t,n;t=e.layerX,n=e.layerY,w&&(null===b.x||null===b.y?(x.moveTo(t,n),m.moveTo(t,n)):(x.moveTo(b.x,b.y),m.moveTo(b.x,b.y)),x.lineTo(t,n),x.stroke(),m.lineTo(t,n),m.stroke(),b.x=t,b.y=n)}),e.addEventListener(&quot;keydown&quot;,function(e){switch(e.key){case&quot;x&quot;:var t=&quot;none&quot;!==r.css(&quot;display&quot;)?&quot;none&quot;:&quot;block&quot;;r.style.setProperty(&quot;display&quot;,t),l.style.setProperty(&quot;display&quot;,t),i.style.setProperty(&quot;display&quot;,t),a.style.setProperty(&quot;display&quot;,t);break;case&quot;z&quot;:k();break;case&quot;:&quot;:u.currentTime-=1;break;case&quot;]&quot;:u.currentTime+=1}}),d.addEventListener(&quot;click&quot;,P),y.addEventListener(&quot;click&quot;,P),e.addEventListener(&quot;resize&quot;,P),P()}function k(){x.clearRect(0,0,h.width,h.height),m.clearRect(0,0,h.width,h.height)}function E(e){x.closePath(),m.closePath(),w=!1,b.x=null,b.y=null}function P(e){setTimeout(function(){n||(s=parseInt(u.css(&quot;width&quot;)),o=parseInt(u.css(&quot;height&quot;))),c.css({width:s+&quot;px&quot;,height:o+&quot;px&quot;,left:&quot;0px&quot;,top:&quot;20px&quot;}),u.css({width:s+&quot;px&quot;,height:o+&quot;px&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;}),r.css({width:s+&quot;px&quot;,left:&quot;0px&quot;}),l.css({width:s+&quot;px&quot;,left:&quot;0px&quot;}),h.copyCss(u,[&quot;width&quot;,&quot;height&quot;,&quot;top&quot;,&quot;left&quot;]),h.setAttribute(&quot;width&quot;,parseInt(u.css(&quot;width&quot;))),h.setAttribute(&quot;height&quot;,parseInt(u.css(&quot;height&quot;))),v.copyCss(u,[&quot;width&quot;,&quot;height&quot;,&quot;top&quot;,&quot;left&quot;]),v.setAttribute(&quot;width&quot;,parseInt(u.css(&quot;width&quot;))),v.setAttribute(&quot;height&quot;,parseInt(u.css(&quot;height&quot;))),v.reset(24,&quot;black&quot;),h.reset(16,&quot;yellow&quot;)},1500)}}(window,window.document);">キャンバスをセット(1280x720)</a>
+        <a href="javascript:!function(e,t){if(!!t.querySelector(&quot;#gungee-canvas&quot;))alert(&quot;%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%90%E3%82%B9%E3%81%AF%E3%81%99%E3%81%A7%E3%81%AB%E3%82%BB%E3%83%83%E3%83%88%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99%E3%80%82&quot;);else{HTMLElement.prototype.css=function(e,t){if(&quot;string&quot;==typeof e){if(void 0===t)return this.style.getPropertyValue(e);this.style.setProperty(e,t)}else if(&quot;object&quot;==typeof e)for(var n=Object.keys(e),s=0;s<n.length;s++)this.style.setProperty(n[s],e[n[s]]);return this},HTMLElement.prototype.copyCss=function(e,t){for(var n=0;n<t.length;n++)this.style.setProperty(t[n],e.style.getPropertyValue(t[n]));return this},HTMLCanvasElement.prototype.reset=function(e,t){var n=this.getContext(&quot;2d&quot;);n.lineCap=&quot;round&quot;,n.lineJoin=&quot;round&quot;,n.lineWidth=e,n.strokeStyle=t};var n=!1,s=1280,o=720,r=t.querySelector(&quot;.ytp-chrome-top&quot;),i=t.querySelector(&quot;.ytp-gradient-top&quot;),l=t.querySelector(&quot;.ytp-chrome-bottom&quot;),a=t.querySelector(&quot;.ytp-gradient-bottom&quot;),c=t.querySelector(&quot;.html5-video-player&quot;),p=t.querySelector(&quot;.html5-video-container&quot;),d=t.querySelector(&quot;.ytp-size-button&quot;),y=t.querySelector(&quot;.ytp-fullscreen-button&quot;),u=p.querySelector(&quot;video&quot;),h=t.createElement(&quot;canvas&quot;);h.setAttribute(&quot;id&quot;,&quot;gungee-canvas&quot;);var v=t.createElement(&quot;canvas&quot;);p.appendChild(v),p.appendChild(h),h.css({position:&quot;absolute&quot;,display:&quot;block&quot;,&quot;z-index&quot;:&quot;99999999&quot;}),v.css({position:&quot;absolute&quot;,display:&quot;block&quot;,&quot;z-index&quot;:&quot;99999999&quot;}),n?c.css({position:&quot;fixed&quot;,&quot;z-index&quot;:&quot;99999990&quot;,left:&quot;0&quot;,top:&quot;20px&quot;}):c.css({position:&quot;relative&quot;,&quot;z-index&quot;:&quot;99999990&quot;});var f=t.createElement(&quot;style&quot;),g=&quot;&quot;;g+=&quot;ytd-app { background: black !important }&quot;,g+=&quot;#container.ytd-masthead, #secondary, .html5-endscreen { display: none !important };&quot;,f.innerHTML=g,t.head.appendChild(f);var m=v.getContext(&quot;2d&quot;),x=h.getContext(&quot;2d&quot;),b={x:null,y:null},w=!1;h.addEventListener(&quot;click&quot;,function(e){e.stopPropagation()}),h.addEventListener(&quot;contextmenu&quot;,function(e){return e.stopPropagation(),e.preventDefault(),!1}),h.addEventListener(&quot;mousedown&quot;,function(e){e.button>0?k():(x.beginPath(),m.beginPath(),w=!0)}),h.addEventListener(&quot;mouseup&quot;,E),h.addEventListener(&quot;mouseout&quot;,E),h.addEventListener(&quot;mousemove&quot;,function(e){var t,n;t=e.layerX,n=e.layerY,w&&(null===b.x||null===b.y?(x.moveTo(t,n),m.moveTo(t,n)):(x.moveTo(b.x,b.y),m.moveTo(b.x,b.y)),x.lineTo(t,n),x.stroke(),m.lineTo(t,n),m.stroke(),b.x=t,b.y=n)}),e.addEventListener(&quot;keydown&quot;,function(e){switch(e.key){case&quot;x&quot;:var t=&quot;none&quot;!==r.css(&quot;display&quot;)?&quot;none&quot;:&quot;block&quot;;r.style.setProperty(&quot;display&quot;,t),l.style.setProperty(&quot;display&quot;,t),i.style.setProperty(&quot;display&quot;,t),a.style.setProperty(&quot;display&quot;,t);break;case&quot;z&quot;:k();break;case&quot;:&quot;:u.currentTime-=1;break;case&quot;]&quot;:u.currentTime+=1}}),d.addEventListener(&quot;click&quot;,P),y.addEventListener(&quot;click&quot;,P),e.addEventListener(&quot;resize&quot;,P),P()}function k(){x.clearRect(0,0,h.width,h.height),m.clearRect(0,0,h.width,h.height)}function E(e){x.closePath(),m.closePath(),w=!1,b.x=null,b.y=null}function P(e){setTimeout(function(){n||(s=parseInt(u.css(&quot;width&quot;)),o=parseInt(u.css(&quot;height&quot;))),c.css({width:s+&quot;px&quot;,height:o+&quot;px&quot;,left:&quot;0px&quot;,top:&quot;20px&quot;}),u.css({width:s+&quot;px&quot;,height:o+&quot;px&quot;,left:&quot;0px&quot;,top:&quot;0px&quot;}),r.css({width:s+&quot;px&quot;,left:&quot;0px&quot;}),l.css({width:s+&quot;px&quot;,left:&quot;0px&quot;}),h.copyCss(u,[&quot;width&quot;,&quot;height&quot;,&quot;top&quot;,&quot;left&quot;]),h.setAttribute(&quot;width&quot;,parseInt(u.css(&quot;width&quot;))),h.setAttribute(&quot;height&quot;,parseInt(u.css(&quot;height&quot;))),v.copyCss(u,[&quot;width&quot;,&quot;height&quot;,&quot;top&quot;,&quot;left&quot;]),v.setAttribute(&quot;width&quot;,parseInt(u.css(&quot;width&quot;))),v.setAttribute(&quot;height&quot;,parseInt(u.css(&quot;height&quot;))),v.reset(24,&quot;black&quot;),h.reset(16,&quot;yellow&quot;)},1500)}}(window,window.document);">キャンバスをセット</a>
+	</div>
+	<p>そうすることで、ブックマークバーにブックマークが追加されると思います。<b>YouTubeの動画を再生しているタブでこのブックマークをクリック</b>すると、動画の再生時間に影響があるはずです。</p>
+	<p>（サーモンランは「1バイト＝7分」「1Wave＝2分」なので、2分または7分進んだり戻ったりできるようにしておくと大変便利です。）</p>
+	<hr>
+
+	<h3>「キャンバスをセット」について</h3>
+	<p>これは筆者が他人のサーモンラン動画をミラー解説するときに使っているブックマークレットです。「動画の上に線を描けるようにする」「解説に不要な要素を非表示にする」「いくつかのキーボードショートカットを追加する」などの機能があります。</p>
+	<p>「キャンバスをセット(1280x720)」のほうは動画サイズを1280x720で固定し、また動画の表示位置もブラウザ左上で固定します。OBS Studioのキャプチャ範囲が固定だと都合が良いので、こういう仕様にしています。</p>
+	<p>「キャンバスをセット」のほうは、そのような動画サイズや動画の表示位置の固定を行いません。</p>
+	<p>キーボードショートカットをまとめた画像を以下に示します。ちなみに、以下の画像のうち<b>ほとんどのショートカットはもとからYouTubeに備わっています</b>。ブックマークレットによって追加されるのは「キャンバスクリア」「シークバーon/off」「1秒戻し」「1秒送り」の4つのみです。なお、Shiftキーを押しながら「コマ戻し」「コマ送り」のキーを押すと、「再生速度ダウン」「再生速度アップ」となります。ミラー解説に役立てよう。</p>
+	<img src="./img/bookmarklet/keyboard.png?1">
+	<p>	<b>【キャンバスクリア】</b>描いた線を消します。「動画上で右クリック」でも可能。</p>
+	<p>	<b>【シークバーon/off】</b>シークバーを消したり出したりします。解説のときにシークバーが邪魔になることがあるので実装しました。</p>
+	<hr>
+
+	<p style="text-align: center;"><a href="./stream-info.html">戻る</a></p>
+</div>
+</body>
