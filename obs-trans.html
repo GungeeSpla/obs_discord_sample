@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OBS Studioのスプラ風トランジション素材</title>
+<link rel="stylesheet" href="./css/style.css?2">
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js?4"></script>
+<style>
+body {
+	background: #eee;
+	color: #333;
+	font-size: 18px;
+}
+#content {
+	width: 80%;
+	margin: 100px auto;
+	max-width: 800px;
+	overflow-x: hidden;
+}
+h2 {
+	font-size: 2em;
+}
+h3 {
+	font-size: 1.8em;
+}
+hr {
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+img {
+	transition: 300ms ease;
+	display: block;
+	max-width: 100%;
+	margin-bottom: 40px;
+}
+.r {
+	border-right: 1px solid black;
+}
+img:hover {
+	filter: brightness(140%);
+}
+</style>
+<script>
+window.onload = () => {
+	$('img').each(function() {
+		const src = $(this).attr('src');
+		$(this).wrap('<a href="' + src + '" target="_blank"></a>');
+	});
+};
+</script>
+</head>
+<body>
+<div id="content">
+
+	<h2>OBS Studioのスプラ風トランジション</h2>
+	
+	<h3>導入手順</h3>
+	<h4>ダウンロード</h4>
+	素材は<a href="./img/splatrans/splatrans.zip" target="_blank">ここ</a>からダウンロードしてください。素材はzipで圧縮されているので、中身のファイルを適当な場所に展開しましょう。すると「splatrans.webm」と「splatrans_no_sound.avi」という二つの動画ファイルが出てきます。_no_soundとついているほうが無音で、もう一方は効果音ありです。
+	<h4>OBS Studioの設定</h4>
+	<img src="./img/splatrans/1.png">
+	<p>「シーントランジション」のメニューをクリックで開きます。デフォルトだと「フェード」になっている部分です。</p>
+	<img src="./img/splatrans/2.png">
+	<p>「追加: スティンガー」をクリックします。</p>
+	<img src="./img/splatrans/3.png">
+	<p>好きな名前を付けてOKをクリックします。ここでは「スプラ風切り替え」としてみました。</p>
+	<img src="./img/splatrans/4.png">
+	<p>「参照」で動画ファイルの場所を指定し、「トランジションポイントの設定」は「フレーム」、「トランジションポイント（フレーム）」は「60」にします。これでOKをクリック。</p>
+	<p>これでもう準備完了です。シーンを適当に切り替えてみてください。</p>
+	
+	<p style="text-align: center;"><a href="./stream-info.html">戻る</a></p>
+	
+</div>
+</body>
